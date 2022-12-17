@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Scrutiny - TM UI Fix
 // @homepageURL https://github.com/J76060/Scrutiny/blob/main/Scrutiny_TM_UI_Fix.js
-// @match       http://192.168.11.11:8082/web/dashboard
+// @match       *://*.11:8082/*
 // @description null
 // @version     null
 // ==/UserScript==
@@ -78,6 +78,7 @@ function createTable(details) {
         'Status',
         'Temperature',
         'Capacity',
+        'Device Model',
         'Powered On',
         'Reallocated Sectors',
         'Spin Retry',
@@ -92,8 +93,9 @@ function createTable(details) {
         const row = createRow([
             detail.data.device.device_name,
             detail.data.device.device_status === 0 ? 'Passed' : 'Failed',
-            Math.round(detail.data.smart_results[0].temp * 5 / 9 + 32) + "°F",
+            Math.round(detail.data.smart_results[0].temp * 1.8 + 32) + "°F",
             humanizeBytes(detail.data.device.capacity),
+            detail.data.device.model_name,
             humanizeTime(detail.data.smart_results[0].power_on_hours),
             getFailureRate(smart_attributes, 5),
             getFailureRate(smart_attributes, 10),
